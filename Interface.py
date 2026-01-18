@@ -172,38 +172,37 @@ class InterfaceCalculatrice:
         self.zone_expression.insert(0, self.calculatrice.expression_courante)
     
     def calculer(self):
-  
         """Calcule et affiche le résultat"""
         expression = self.calculatrice.expression_courante
-    
-    if not expression:
-        messagebox.showwarning("Attention", "Tapez d'abord une expression")
-        #return
-    
-    try:
-        # Calculer le résultat
-        resultat = Evaluateur.evaluer(expression)
         
-        # Formater joliment le résultat
-        if resultat == int(resultat):
-            resultat_str = str(int(resultat))
-        else:
-            resultat_str = f"{resultat:.6f}".rstrip('0').rstrip('.')
+        if not expression:
+            messagebox.showwarning("Attention", "Tapez d'abord une expression")
+            return
         
-        # Afficher le résultat en vert
-        self.zone_resultat.config(text=f"= {resultat_str}", fg="#27AE60")
-        # Sauvegarder dans l'historique
-        self.calculatrice.ajouter_a_historique(expression, resultat_str)
-        
-        # 🆕 AJOUTEZ CES 2 LIGNES : Préparer pour un nouveau calcul
-        self.calculatrice.effacer_expression()
-        self.zone_expression.delete(0, tk.END)
-        
-    except ValueError as e:
-        # Afficher l'erreur en rouge
-        self.zone_resultat.config(text=f"ERREUR: {str(e)}", fg="#E74C3C")
-    except Exception as e:
-        self.zone_resultat.config(text="ERREUR: Expression invalide", fg="#E74C3C")
+        try:
+            # Calculer le résultat
+            resultat = Evaluateur.evaluer(expression)
+            
+            # Formater joliment le résultat
+            if resultat == int(resultat):
+                resultat_str = str(int(resultat))
+            else:
+                resultat_str = f"{resultat:.6f}".rstrip('0').rstrip('.')
+            
+            # Afficher le résultat en vert
+            self.zone_resultat.config(text=f"= {resultat_str}", fg="#27AE60")
+            # Sauvegarder dans l'historique
+            self.calculatrice.ajouter_a_historique(expression, resultat_str)
+            
+            # Préparer pour un nouveau calcul
+            self.calculatrice.effacer_expression()
+            self.zone_expression.delete(0, tk.END)
+            
+        except ValueError as e:
+            # Afficher l'erreur en rouge
+            self.zone_resultat.config(text=f"ERREUR: {str(e)}", fg="#E74C3C")
+        except Exception as e:
+            self.zone_resultat.config(text="ERREUR: Expression invalide", fg="#E74C3C")
     
     def effacer(self):
         """Efface tout"""
