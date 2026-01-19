@@ -11,8 +11,6 @@ def main():
     
     # Lancer la boucle d'affichage
     root.mainloop()
-
-
-# Point d'entrée du programme
+    
 if __name__ == "__main__":
     main()
